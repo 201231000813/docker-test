@@ -1,0 +1,32 @@
+version: "3"
+
+services:
+  my-project1:
+    build: .
+    ports:
+      - "3333:3333"
+    depends_on:
+      - redis
+      - mongo
+    networks:
+      - my-net
+
+  redis:
+    image: "redis:alpine"
+    restart: always
+    expose:
+      - "6379"
+    networks:
+      - my-net
+    command: redis-server
+
+  mongo:
+    image: mongo:3.4.1
+    restart: always
+    expose:
+      - "27017"
+    networks:
+      - "my-net"
+
+networks:
+  my-net:
